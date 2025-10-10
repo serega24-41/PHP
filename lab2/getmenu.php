@@ -1,77 +1,148 @@
 <?php
-/*
-   ЗАДАНИЕ 1
-   - Опишите функцию getMenu()
-   - Задайте для функции первый аргумент $menu, в него будет передаваться массив, содержащий структуру меню
-   - Задайте для функции второй аргумент $vertical со значением по умолчанию равным true. Данный параметр указывает, каким образом будет отрисовано меню - вертикально или горизонтально
-   - Добавьте в объявлние функции описание типов аргументов
-   
-   ЗАДАНИЕ 2
-   - Откройте файл menu.php
-   - Скопируйте код, который создает массив $leftMenu и вставьте скопированный код в данный документ
-   - Скопируйте код, который отрисовывает меню
-   - Вставьте скопированный код в тело функции getMenu()
-   - Измените код таким образом, чтобы меню отрисовывалась в зависимости от входящих параметров $menu и $vertical
-   - Добавьте описание функции getMenu() с помощью стандарта PHPDoc https://ru.wikipedia.org/wiki/PHPDoc
-   */
+declare(strict_types=1);
+
 
 /**
- * Функция для создания списка (меню).
+ * Создание массива для навигационного меню
  * 
- * @param array $menu - массив,содержащий элементы меню (ассоциативные массивы с парами название - ссылка),
- * @param bool $vertical определяет, будет ли меню вертикальным (true) или горизонтальным (false)
+ * Массив содержит ассоциативные массивы с пунктами меню
+ * Каждый элемент имеет ключи 'link' (текст ссылки) и 'href' (URL адрес)
+ * 
+ * @var array $leftMenu Массив структуры меню
+ */
+$leftMenu = [
+    [
+        'link' => 'Домой',
+        'href' => 'index.php'
+    ],
+    [
+        'link' => 'О нас',
+        'href' => 'about.php'
+    ],
+    [
+        'link' => 'Контакты',
+        'href' => 'contact.php'
+    ],
+    [
+        'link' => 'Таблица умножения',
+        'href' => 'table.php'
+    ],
+    [
+        'link' => 'Калькулятор',
+        'href' => 'calc.php'
+    ]
+];
+
+/**
+ * Функция для отрисовки навигационного меню
+ * 
+ * @param array $menu Массив с структурой меню
+ * @param bool $vertical Флаг ориентации меню (true - вертикальное, false - горизонтальное)
+ * @return void
  */
 function getMenu(array $menu, bool $vertical = true): void
 {
-    $menuClasses = $vertical ?  'menu' : 'menu vertical';
-
-    echo "<ul class='$menuClasses'>";
-    foreach ($menu as $item)
-        echo "<li><a href={$item['href']}>{$item['link']}</a></li>";
-
-    echo '</ul>';
-
+    /**
+     * Определение класса меню в зависимости от ориентации
+     * @var string $menuClass
+     */
+    $menuClass = $vertical ? 'menu vertical' : 'menu horizontal';
+    ?>
+    <ul class="<?= $menuClass ?>">
+        <?php
+        /**
+         * Отрисовка пунктов меню с помощью цикла foreach
+         * 
+         * @param array $item Элемент меню с ключами 'link' и 'href'
+         */
+        foreach ($menu as $item): 
+        ?>
+            <li>
+                <a href='<?= $item['href'] ?>'>
+                    <?= $item['link'] ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Меню</title>
-    <style>
-        .menu {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-        }
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Меню</title>
+	<style>
+		.menu {
+			list-style-type: none;
+			margin: 0;	
+			padding: 0;
+		}
 
-        .vertical li {
-            display: inline;
-            padding: 5px
-        }
-    </style>
+		.vertical {
+			width: 200px; /* Фиксированная ширина для вертикального меню */
+		}
+		
+		.vertical li {
+			margin-bottom: 5px;
+			display: block;
+		}
+		
+		.vertical a {
+			text-decoration: none;
+			color: #333;
+			padding: 8px 12px;
+			display: inline-block; /* Изменено с block на inline-block */
+			border: 1px solid #ddd;
+			border-radius: 3px;
+			background-color: #f9f9f9;
+			transition: background-color 0.3s;
+			width: auto; /* Ширина по содержимому */
+		}
+		
+		.vertical a:hover {
+			background-color: #e9e9e9;
+		}
+
+		.horizontal li {
+			display: inline-block; /* Изменено с inline на inline-block */
+			margin-right: 10px;
+		}
+		
+		.horizontal a {
+			text-decoration: none;
+			color: #333;
+			padding: 8px 12px;
+			border: 1px solid #ddd;
+			border-radius: 3px;
+			background-color: #f9f9f9;
+			transition: background-color 0.3s;
+			display: inline-block; /* Добавлено для лучшего контроля */
+		}
+		
+		.horizontal a:hover {
+			background-color: #e9e9e9;
+		}
+	</style>
 </head>
-
 <body>
-    <h1>Меню</h1>
-    <?php
-
-    $leftMenu = [
-        ['link' => 'Домой', 'href' => 'index.php'],
-        ['link' => 'О нас', 'href' => 'about.php'],
-        ['link' => 'Контакты', 'href' => 'contact.php'],
-        ['link' => 'Таблица умножения', 'href' => 'table.php'],
-        ['link' => 'Калькулятор', 'href' => 'calc.php'],
-    ];
-
-    getMenu($leftMenu);
-
-    echo '<h2>Горизонтальное меню</h2>';
-    getMenu($leftMenu, false);
-    ?>
+	<h1>Меню</h1>
+	<?php
+	
+	?>
+	<h2>Вертикальное меню (один параметр)</h2>
+	<?php getMenu($leftMenu); ?>
+	
+	<?php
+	
+	?>
+	<h2>Горизонтальное меню (второй параметр false)</h2>
+	<?php getMenu($leftMenu, false); ?>
+	
+	<h2>Вертикальное меню (второй параметр true)</h2>
+	<?php getMenu($leftMenu, true); ?>
 </body>
-
 </html>
