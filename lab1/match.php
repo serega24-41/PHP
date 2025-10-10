@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 $day = 3;
 ?>
 <!DOCTYPE html>
