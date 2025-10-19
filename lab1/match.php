@@ -13,7 +13,7 @@ $day = 3;
 <body>
 	<h1>Конструкция match</h1>
 	<?php
-	$result = match(true) {
+	$result = match($day) {
 	    $day >= 1 && $day <= 5 => "Это рабочий день",
 	    $day >= 6 && $day <= 7 => "Это выходной день",
 	    default => "Неизвестный день"

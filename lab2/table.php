@@ -6,8 +6,8 @@ declare(strict_types=1);
  * @var int $cols Количество столбцов в таблице умножения
  * @var int $rows Количество строк в таблице умножения
  */
-$cols = 10;
-$rows = 10;
+$cols = 8;
+$rows = 6;
 
 ?>
 <!DOCTYPE html>

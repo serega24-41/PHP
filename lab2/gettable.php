@@ -1,113 +1,103 @@
 <?php
-/*
-   ЗАДАНИЕ 1
-   - Опишите функцию getTable()
-   - Задайте для функции три аргумента: $cols, $rows, $color
-
-   ЗАДАНИЕ 2
-   - Откройте файл table.php
-   - Скопируйте код, который отрисовывает таблицу умножения
-   - Вставьте скопированный код в тело функции getTable()
-   - Измените код таким образом, чтобы таблица отрисовывалась в зависимости от входящих параметров $cols, $rows и $color
-   - Добавьте в объявлние функции описание типов аргументов
-   */
+declare(strict_types=1);
 
 /**
- * Функция для вывода таблицы умножения
+ * Функция для отрисовки таблицы умножения
  * 
- * @param int $cols - количество столбцов таблицы,
- * @param int $rows - количество строк таблицы,
- * @param string $color - цвет заголовков (первого столбца и первой строки),
- * @return int  - возвращает количество вызывов функции.
+ * @param int $cols Количество столбцов в таблице
+ * @param int $rows Количество строк в таблице
+ * @param string $color Цвет фона заголовочных ячеек
+ * @return int Количество вызовов функции
  */
-function getTable(int $cols = 10, int $rows = 10, string $color = 'yellow'): int
+function getTable (int $cols =5 ,int $rows = 5, string $color = 'yellow'):
+int
 {
-    //подсчёт количества вызовов
     static $count = 0;
-    ++$count;
-
-    echo '<table>';
-
-    echo '<tr>';
-    echo '<th style="background-color:' . $color . ';">*</th>';
-    for ($i = 1; $i <= $cols; $i++)
-        echo '<th style="background-color:' . $color . ';">', $i, '</th>';
-    echo '</tr>';
-
-    for ($i = 1; $i <= $rows; $i++) {
-        echo '<tr>';
-
-        echo '<th style="background-color:' . $color . ';">', $i, '</th>';
-        for ($j = 1; $j <= $cols; $j++)
-            echo '<td>', $i * $j, '</td>';
-        echo '</tr>';
-    }
-
-    echo '</table>';
-
+    $count++;
+    
+    ?>
+    <table>
+        <?php for ($i = 1; $i <= $rows; $i++): ?>
+            <tr>
+                <?php for ($j = 1; $j <= $cols; $j++): ?>
+                    <?php
+                    $cellClass = ($i === 1 || $j === 1) ? 'header-cell' : 'data-cell';
+                    $cellValue = $i * $j;
+                    ?>
+                    <td class="<?= $cellClass ?>" 
+                        <?php if ($i === 1 || $j === 1): ?>
+                            style="background-color: <?= $color ?>; font-weight: bold; text-align: center;"
+                        <?php endif; ?>>
+                        <?= $cellValue ?>
+                    </td>
+                <?php endfor; ?>
+            </tr>
+        <?php endfor; ?>
+    </table>
+    <?php
+    
     return $count;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таблица умножения</title>
-    <style>
-        table {
-            border: 2px solid black;
-            border-collapse: collapse;
-        }
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Таблица умножения</title>
+	<style>
+		table {
+			border: 2px solid black;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		
+		}
 
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid black;
-        }
+		th,
+		td {
+			padding: 10px;
+			border: 1px solid black;
+			text-align: center;
+		}
 
-        th {
-            background-color: yellow;
-        }
-    </style>
+		.header-cell {
+			font-weight: bold;
+			text-align: center;
+		}
+		
+		.data-cell {
+			background-color: white;
+		}
+	</style>
 </head>
-
-<body>
-    <h1>Таблица умножения</h1>
-    <?php
-    /*
-       ЗАДАНИЕ 3
-       - Отрисуйте таблицу умножения вызывая функцию getTable() с различными параметрами
-       - Создайте локальную статическую переменную $count для подсчёта числа вызовов функции getTable()
-       - Функция getTable() должна возвращать значение переменной $count
-       */
-    /*
-       ЗАДАНИЕ 4
-       - Измените входящие параметры функции getTable() на параметры по умолчанию
-       - Добавьте описание функции getTable() с помощью стандарта PHPDoc https://ru.wikipedia.org/wiki/PHPDoc
-       */
-    /*
-       ЗАДАНИЕ 5
-       - Отрисуйте таблицу умножения вызывая функцию getTable() без параметров
-       - Отрисуйте таблицу умножения вызывая функцию getTable() с одним параметром
-       - Отрисуйте таблицу умножения вызывая функцию getTable() с двумя параметрами
-       - Используя статическую переменную $count выведите общее число вызовов функции getTable()
-       */
-
-    $count = getTable();
-    echo "Функция вызвана $count раз(а).<br><br>";
-
-    $count = getTable(5);
-    echo "Функция вызвана $count раз(а).<br><br>";
-
-    $count = getTable(5, 5);
-    echo "Функция вызвана $count раз(а).<br><br>";
-
-    $count = getTable(5, 5, 'lightblue');
-    echo "Функция вызвана $count раз(а).<br><br>";
-    ?>
+<body> 
+	<h1>Таблица умножения</h1>
+	
+	
+	<h2>Таблица 5x5 (без параметров)</h2>
+	<?php $count1 = getTable(); ?>
+	
+	<h2>Таблица 3x3 (один параметр)</h2>
+	<?php $count2 = getTable(3); ?>
+	
+	<h2>Таблица 4x6 (два параметра)</h2>
+	<?php $count3 = getTable(4, 6); ?>
+	
+	<h2>Таблица 8x8 (три параметра)</h2>
+	<?php $count4 = getTable(8, 8, 'lightblue'); ?>
+	
+	<h2>Таблица 2x7</h2>
+	<?php $count5 = getTable(2, 7, 'red'); ?>
+	
+	<?php
+	/**
+	 * Вывод общего количества вызовов функции
+	 * Используем последнее возвращенное значение
+	 */
+	?>
+	<p><strong>Общее количество вызовов функции getTable(): <?= $count5 ?></strong></p>
+	
 </body>
-
 </html>
